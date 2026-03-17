@@ -25,6 +25,13 @@ public class Pedido {
         return total;
     }
     
+    public void confirmarPedido() throws Exception{
+        if (productos.isEmpty()){
+            throw new Exception("El pedido esta vacio");
+        }
+        estado = "En preparacion";
+    }
+    
     public void getEstado(){
         this.estado = estado;
     }
