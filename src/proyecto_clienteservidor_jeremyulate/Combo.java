@@ -1,6 +1,7 @@
 package proyecto_clienteservidor_jeremyulate;
 import java.util.ArrayList;
 public class Combo extends Producto{
+    
     private ArrayList<Producto> productos;
     
     public Combo (String nombre){

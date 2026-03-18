@@ -27,6 +27,20 @@ public class VentanaLogin extends JFrame{
         JButton btnLogin = new JButton("Ingresar");
         btnLogin.setBounds(90, 100, 120, 30);
         add(btnLogin);
+        
+        btnLogin.addActionListener(e -> {
+            String usuario = txtUsuario.getText();
+
+            if(usuario.equalsIgnoreCase("cajero")){
+                new VentanaPedido();
+                dispose();
+            } else if(usuario.equalsIgnoreCase("cocina")){
+                new VentanaCocina();
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario inválido");
+            }
+        });
 
         setLocationRelativeTo(null);
         setVisible(true);

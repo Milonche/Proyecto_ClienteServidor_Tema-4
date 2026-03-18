@@ -2,41 +2,43 @@ package proyecto_clienteservidor_jeremyulate;
 import javax.swing.*;
 import java.awt.*;
 public class VentanaFactura extends JFrame{
-    
-    public VentanaFactura(){
+
+    private Pedido pedido;
+
+    public VentanaFactura(Pedido pedido){
+
+        this.pedido = pedido;
 
         setTitle("Factura");
         setSize(300,300);
         setLayout(null);
         getContentPane().setBackground(Color.WHITE);
 
-        JLabel lblDetalle = new JLabel("Detalle:");
-        lblDetalle.setBounds(20, 20, 100, 25);
-        add(lblDetalle);
-
-        JTextArea areaDetalle = new JTextArea();
-        areaDetalle.setBounds(20, 50, 240, 100);
-        add(areaDetalle);
-
-        JLabel lblSubtotal = new JLabel("Subtotal:");
-        lblSubtotal.setBounds(20, 160, 100, 25);
-        add(lblSubtotal);
-
-        JLabel lblImpuestos = new JLabel("Impuestos:");
-        lblImpuestos.setBounds(20, 190, 100, 25);
-        add(lblImpuestos);
-
-        JLabel lblTotal = new JLabel("Total:");
-        lblTotal.setBounds(20, 220, 100, 25);
-        add(lblTotal);
+        JTextArea area = new JTextArea();
+        area.setBounds(20, 20, 240, 100);
+        add(area);
 
         JButton btnGenerar = new JButton("Generar");
-        btnGenerar.setBounds(150, 160, 100, 25);
+        btnGenerar.setBounds(80, 140, 120, 30);
         add(btnGenerar);
 
         JButton btnExportar = new JButton("Exportar");
-        btnExportar.setBounds(150, 200, 100, 25);
+        btnExportar.setBounds(80, 190, 120, 30);
         add(btnExportar);
+
+        btnGenerar.addActionListener(e -> {
+            Factura f = new Factura(pedido);
+
+            area.setText(
+                "Subtotal: " + f.getSubtotal() +
+                "\nImpuestos: " + f.getImpuestos() +
+                "\nTotal: " + f.getTotal()
+            );
+        });
+
+        btnExportar.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Factura exportada");
+        });
 
         setLocationRelativeTo(null);
         setVisible(true);

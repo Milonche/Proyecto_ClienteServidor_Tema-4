@@ -1,6 +1,7 @@
 package proyecto_clienteservidor_jeremyulate;
 import java.util.ArrayList;
 public class Pedido {
+    
     private ArrayList<Producto> productos;
     private String estado;
     
@@ -9,7 +10,7 @@ public class Pedido {
         estado = "Pendiente";
     }
     
-    public void agregarProductos(Producto p){
+    public void agregarProducto(Producto p){
         productos.add(p);
     }
     
@@ -25,10 +26,6 @@ public class Pedido {
         return total;
     }
     
-    public void setEstado(String estado){
-        this.estado = estado;
-    }
-    
     public void confirmarPedido() throws Exception{
         if (productos.isEmpty()){
             throw new Exception("El pedido esta vacio");
@@ -36,7 +33,11 @@ public class Pedido {
         estado = "En preparacion";
     }
     
-    public void getEstado(){
+    public String getEstado(){
+        return estado;
+    }
+    
+    public void setEstado(String estado){
         this.estado = estado;
     }
 }

@@ -41,6 +41,10 @@ public class VentanaCocina extends JFrame{
         JButton btnPrioridad = new JButton("Priorizar");
         btnPrioridad.setBounds(200, 200, 120, 30);
         add(btnPrioridad);
+        
+        btnEstado.addActionListener(e -> {
+        JOptionPane.showMessageDialog(null, "Pedido en preparación");
+        });
 
         setLocationRelativeTo(null);
         setVisible(true);

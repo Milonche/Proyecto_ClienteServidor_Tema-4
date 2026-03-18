@@ -1,5 +1,6 @@
 package proyecto_clienteservidor_jeremyulate;
 public class Producto {
+    
     protected String nombre;
     protected double precio;
     

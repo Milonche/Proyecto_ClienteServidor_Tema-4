@@ -1,5 +1,6 @@
 package proyecto_clienteservidor_jeremyulate;
 public class Usuario {
+    
     private String nombre;
     private String rol;
     
