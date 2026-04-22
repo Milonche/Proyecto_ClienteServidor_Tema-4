@@ -3,41 +3,53 @@ import javax.swing.*;
 import java.awt.*;
 public class VentanaFactura extends JFrame{
 
-    private Pedido pedido;
+    private int idPedido;
+    private JTextArea area;
+    private ClienteSocket cliente;
 
-    public VentanaFactura(Pedido pedido){
+    public VentanaFactura(int idPedido) {
+        this.idPedido = idPedido;
+        this.cliente = new ClienteSocket("127.0.0.1", 5000);
 
-        this.pedido = pedido;
-
-        setTitle("Factura");
-        setSize(300,300);
+        setTitle("Facturacion");
+        setSize(350, 350);
         setLayout(null);
         getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JTextArea area = new JTextArea();
-        area.setBounds(20, 20, 240, 100);
-        add(area);
+        area = new JTextArea();
+        area.setEditable(false);
 
-        JButton btnGenerar = new JButton("Generar");
-        btnGenerar.setBounds(80, 140, 120, 30);
+        JScrollPane scroll = new JScrollPane(area);
+        scroll.setBounds(20, 20, 290, 170);
+        add(scroll);
+
+        JButton btnGenerar = new JButton("Generar Factura");
+        btnGenerar.setBounds(90, 210, 150, 30);
         add(btnGenerar);
 
-        JButton btnExportar = new JButton("Exportar");
-        btnExportar.setBounds(80, 190, 120, 30);
+        JButton btnExportar = new JButton("Exportar TXT");
+        btnExportar.setBounds(90, 255, 150, 30);
         add(btnExportar);
 
         btnGenerar.addActionListener(e -> {
-            Factura f = new Factura(pedido);
-
-            area.setText(
-                "Subtotal: " + f.getSubtotal() +
-                "\nImpuestos: " + f.getImpuestos() +
-                "\nTotal: " + f.getTotal()
-            );
+            try {
+                area.setText(cliente.generarFacturaTexto(idPedido));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error al generar factura");
+            }
         });
 
         btnExportar.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Factura exportada");
+            try {
+                if (cliente.exportarFacturaTxt(idPedido)) {
+                    JOptionPane.showMessageDialog(null, "Factura exportada en TXT");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo exportar");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error al exportar factura");
+            }
         });
 
         setLocationRelativeTo(null);

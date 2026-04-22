@@ -1,31 +1,44 @@
 package proyecto_clienteservidor_jeremyulate;
+import java.time.LocalDate;
 public class Factura {
-    private Pedido pedido;
+
+    private int idFactura;
+    private int idPedido;
+    private LocalDate fecha;
     private double subtotal;
     private double impuestos;
     private double total;
-    
-    public Factura(Pedido pedido){
-        this.pedido = pedido;
-        calcularFactura();
+
+    public Factura(int idFactura, int idPedido, LocalDate fecha, double subtotal, double impuestos, double total) {
+        this.idFactura = idFactura;
+        this.idPedido = idPedido;
+        this.fecha = fecha;
+        this.subtotal = subtotal;
+        this.impuestos = impuestos;
+        this.total = total;
     }
-    
-    private void calcularFactura(){
-        subtotal = pedido.calcularTotal();
-        impuestos = subtotal * 0.13;
-        total = subtotal + impuestos;
+
+    public int getIdFactura() {
+        return idFactura;
     }
-    
-    public double getSubtotal(){
+
+    public int getIdPedido() {
+        return idPedido;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public double getSubtotal() {
         return subtotal;
     }
-    
-    public double getImpuestos(){
+
+    public double getImpuestos() {
         return impuestos;
     }
-    
-    public double getTotal(){
+
+    public double getTotal() {
         return total;
     }
 }
-

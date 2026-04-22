@@ -3,42 +3,71 @@ import javax.swing.*;
 import java.awt.*;
 public class VentanaLogin extends JFrame{
     
-    public VentanaLogin(){
+    private JTextField txtUsuario;
+    private JPasswordField txtContrasena;
+    private ClienteSocket cliente;
+
+    public VentanaLogin() {
+        cliente = new ClienteSocket("127.0.0.1", 5000);
 
         setTitle("Login");
-        setSize(300,200);
+        setSize(320, 230);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        //fondo
         getContentPane().setBackground(Color.WHITE);
 
-        //etiqueta
+        JLabel lblTitulo = new JLabel("INICIO DE SESION");
+        lblTitulo.setBounds(95, 15, 150, 25);
+        add(lblTitulo);
+
         JLabel lblUsuario = new JLabel("Usuario:");
-        lblUsuario.setBounds(30, 40, 80, 25);
+        lblUsuario.setBounds(30, 60, 80, 25);
         add(lblUsuario);
 
-        //espacio de texto
-        JTextField txtUsuario = new JTextField();
-        txtUsuario.setBounds(110, 40, 130, 25);
+        txtUsuario = new JTextField();
+        txtUsuario.setBounds(110, 60, 150, 25);
         add(txtUsuario);
 
-        //boton
-        JButton btnLogin = new JButton("Ingresar");
-        btnLogin.setBounds(90, 100, 120, 30);
-        add(btnLogin);
-        
-        btnLogin.addActionListener(e -> {
-            String usuario = txtUsuario.getText();
+        JLabel lblContrasena = new JLabel("Contrasena:");
+        lblContrasena.setBounds(30, 95, 80, 25);
+        add(lblContrasena);
 
-            if(usuario.equalsIgnoreCase("cajero")){
-                new VentanaPedido();
+        txtContrasena = new JPasswordField();
+        txtContrasena.setBounds(110, 95, 150, 25);
+        add(txtContrasena);
+
+        JButton btnLogin = new JButton("Ingresar");
+        btnLogin.setBounds(100, 140, 120, 30);
+        add(btnLogin);
+
+        btnLogin.addActionListener(e -> {
+            try {
+                String usuario = txtUsuario.getText();
+                String contrasena = new String(txtContrasena.getPassword());
+
+                String[] respuesta = cliente.login(usuario, contrasena);
+
+                if (!respuesta[0].equals("OK")) {
+                    JOptionPane.showMessageDialog(null, "Usuario o contrasena incorrectos");
+                    return;
+                }
+
+                int idUsuario = Integer.parseInt(respuesta[1]);
+                String rol = respuesta[2];
+                String nombre = respuesta[3];
+
+                Usuario u = new Usuario(idUsuario, nombre, usuario, contrasena, rol);
+
+                if (rol.equalsIgnoreCase("Cocina")) {
+                    new VentanaCocina();
+                } else {
+                    new VentanaMenuPrincipal(u);
+                }
+
                 dispose();
-            } else if(usuario.equalsIgnoreCase("cocina")){
-                new VentanaCocina();
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuario inválido");
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error de conexion con el servidor");
             }
         });
 
@@ -46,4 +75,3 @@ public class VentanaLogin extends JFrame{
         setVisible(true);
     }
 }
-

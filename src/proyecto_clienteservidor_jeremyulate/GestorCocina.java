@@ -2,23 +2,21 @@ package proyecto_clienteservidor_jeremyulate;
 import java.util.ArrayList;
 public class GestorCocina {
     
-    private ArrayList<Pedido> pedidos;
-    
-    public GestorCocina(){
-        pedidos = new ArrayList<>();
+    private ClienteSocket cliente;
+
+    public GestorCocina() {
+        cliente = new ClienteSocket("127.0.0.1", 5000);
     }
-    
-    public void agregarPedido(Pedido p){
-        pedidos.add(p);
+
+    public ArrayList<String> listarPedidos() throws Exception {
+        return cliente.listarPedidosTexto();
     }
-    
-    public void cambiarEstado(Pedido p, String estado){
-        p.setEstado(estado);
+
+    public boolean cambiarEstado(int idPedido, String estado) throws Exception {
+        return cliente.cambiarEstadoPedido(idPedido, estado);
     }
-    
-    public void priorizarPedido(Pedido p){
-        pedidos.remove(p);
-        pedidos.add(0, p);
+
+    public boolean priorizarPedido(int idPedido) throws Exception {
+        return cliente.priorizarPedido(idPedido);
     }
 }
-
